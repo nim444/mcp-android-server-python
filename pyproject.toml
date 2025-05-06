@@ -1,7 +1,7 @@
 [project]
 name = "mcp-adb"
 version = "0.1.0"
-description = "Add your description here"
+description = "An MCP server for Android automation using UIAutomator2"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -11,6 +11,7 @@ dependencies = [
     "uiautomator2>=3.2.9",
     "python-multipart>=0.0.9", # Already added
     # "starlette>=0.38.0", # This caused conflicts, so we revert this change
+    "ruff>=0.11.8",
 ]
 
 [tool.pytest.ini_options]
