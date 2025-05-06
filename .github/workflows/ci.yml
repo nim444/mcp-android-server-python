@@ -1,10 +1,12 @@
 name: CI Pipeline
 
 on:
-push:
-    branches: [ "tests"]
-  pull_request:
-    branches: [ "main" ]
+    push:
+        branches: [ "main", "tests"]
+    pull_request:
+        branches: [ "main" ]
+    workflow_dispatch: # Allows manual triggering
+
 
 
 jobs:
