@@ -12,6 +12,8 @@ dependencies = [
     "python-multipart>=0.0.9", # Already added
     # "starlette>=0.38.0", # This caused conflicts, so we revert this change
     "ruff>=0.11.8",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
 ]
 
 [tool.pytest.ini_options]
