@@ -1,12 +1,23 @@
 [project]
 name = "mcp-adb"
 version = "0.1.0"
-description = "Add your description here"
+description = "An MCP server for Android automation using UIAutomator2"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "asyncio>=3.4.3",
     "mcp[cli]>=1.7.0",
-    "uiautodev>=0.6.0",
+    "uiautodev>=0.6.0", # This likely pins fastapi, which pins starlette < 0.38.0
     "uiautomator2>=3.2.9",
+    "python-multipart>=0.0.9", # Already added
+    # "starlette>=0.38.0", # This caused conflicts, so we revert this change
+    "ruff>=0.11.8",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "pytest-asyncio>=0.26.0",
+]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore:Please use \\`import python_multipart\\` instead.:PendingDeprecationWarning:starlette\\.formparsers",
 ]

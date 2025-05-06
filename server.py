@@ -1,11 +1,10 @@
 # server.py
 from mcp.server.fastmcp import FastMCP
 import uiautomator2 as u2
-from typing import List, Optional, Dict, Any, Tuple
+from typing import List, Optional, Dict, Any
 import shutil
 import subprocess
 import asyncio
-from dataclasses import dataclass
 from typing import TypedDict
 
 # Create an MCP server
@@ -358,7 +357,7 @@ def click(
         else:
             raise ValueError(f"Invalid selector_type: {selector_type}")
 
-        if el:
+        if el and el.exists:
             el.click()
             return True
         return False
@@ -423,7 +422,7 @@ def get_element_info(
         else:
             raise ValueError(f"Invalid selector_type: {selector_type}")
 
-        if el:
+        if el and el.exists:
             info = el.info
             return {
                 "text": info.get("text", ""),
@@ -500,7 +499,8 @@ def wait_for_element(
         elif selector_type == "resourceId":
             return d(resourceId=selector).wait(timeout=timeout)
         elif selector_type == "description":
-            return d(description=selector).wait(timeout=timeout)
+            el = d(description=selector).wait(timeout=timeout)
+            return el is not None and el.exists
         else:
             raise ValueError(f"Invalid selector_type: {selector_type}")
     except Exception as e:
@@ -559,7 +559,7 @@ def long_click(
         else:
             raise ValueError(f"Invalid selector_type: {selector_type}")
 
-        if el.exists:
+        if el and el.exists:
             el.long_click(duration=duration)
             return True
         return False
@@ -589,7 +589,8 @@ def scroll_to(
         elif selector_type == "resourceId":
             return d(scrollable=True).scroll.to(resourceId=selector)
         elif selector_type == "description":
-            return d(scrollable=True).scroll.to(description=selector)
+            el = d(scrollable=True).scroll.to(description=selector)
+            return el is not None and el.exists
         else:
             raise ValueError(f"Invalid selector_type: {selector_type}")
     except Exception as e:
@@ -628,7 +629,7 @@ def drag(
         else:
             raise ValueError(f"Invalid selector_type: {selector_type}")
 
-        if el.exists:
+        if el and el.exists:
             el.drag_to(to_x, to_y)
             return True
         return False

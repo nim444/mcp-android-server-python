@@ -1,0 +1,62 @@
+name: CI Pipeline
+
+on:
+    push:
+        branches: [ "main", "tests"]
+    pull_request:
+        branches: [ "main" ]
+    workflow_dispatch: # Allows manual triggering
+
+
+
+jobs:
+  lint:
+    name: Lint & Format Check
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python 3.13
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.13"
+
+    - name: Install uv
+      run: curl -LsSf https://astral.sh/uv/install.sh | sh
+      # Add uv to the PATH
+    - name: Add uv to PATH
+      run: echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+    - name: Install dependencies (including dev)
+      run: uv pip install --system .
+
+    - name: Lint with Ruff
+      run: uv run ruff check server.py
+
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: lint # Ensure linting passes before testing
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python 3.13
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.13"
+
+    - name: Install uv
+      run: curl -LsSf https://astral.sh/uv/install.sh | sh
+      # Add uv to the PATH
+    - name: Add uv to PATH
+      run: echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+
+    - name: Install dependencies (including test)
+      run: uv pip install --system .
+
+    - name: Run tests with pytest
+      run: uv run pytest -v 
