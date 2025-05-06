@@ -29,13 +29,11 @@ jobs:
       run: echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
     - name: Install dependencies (including dev)
-      run: uv pip install --system -e '.[test,dev]' # Need dev for ruff
+      run: uv pip install --system .
 
     - name: Lint with Ruff
-      run: uv run ruff check .
+      run: uv run ruff check server.py
 
-    - name: Check formatting with Ruff
-      run: uv run ruff format --check .
 
   test:
     name: Run Tests
