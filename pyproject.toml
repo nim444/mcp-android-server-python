@@ -7,6 +7,13 @@ requires-python = ">=3.13"
 dependencies = [
     "asyncio>=3.4.3",
     "mcp[cli]>=1.7.0",
-    "uiautodev>=0.6.0",
+    "uiautodev>=0.6.0", # This likely pins fastapi, which pins starlette < 0.38.0
     "uiautomator2>=3.2.9",
+    "python-multipart>=0.0.9", # Already added
+    # "starlette>=0.38.0", # This caused conflicts, so we revert this change
+]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore:Please use \\`import python_multipart\\` instead.:PendingDeprecationWarning:starlette\\.formparsers",
 ]
