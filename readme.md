@@ -1,13 +1,12 @@
 [![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/)
 
-
 # MCP Android Agent
 
 This project provides an **MCP (Model Context Protocol)** server for automating Android devices using [uiautomator2](https://github.com/openatx/uiautomator2). It's designed to be easily plugged into AI agents like GitHub Copilot Chat, Claude, or Open Interpreter to control Android devices through natural language.
 
-## 📱 Demo
+## Quick Demo
 
-https://github.com/nim444/mcp-android/blob/main/.docs/demo.mp4
+<video src=".docs/demo.mp4" width="600" controls></video>
 
 ---
 
