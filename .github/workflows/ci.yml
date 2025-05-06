@@ -2,7 +2,7 @@ name: CI Pipeline
 
 on:
 push:
-    branches: [ "main" , "tests"]
+    branches: [ "tests"]
   pull_request:
     branches: [ "main" ]
 
