@@ -78,6 +78,65 @@ uvicorn server:app --factory --host 0.0.0.0 --port 8000
 python server.py
 ```
 
+## Usage
+
+An MCP client is needed to use this server. The Claude Desktop app is an example of an MCP client. To use this server with Claude Desktop:
+
+### Locate your Claude Desktop configuration file
+
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+### Add the Android MCP server configuration to the mcpServers section
+
+```json
+{
+  "mcpServers": {
+    "mcp-android": {
+      "type": "stdio",
+      "command": "bash",
+      "args": [
+        "-c",
+        "cd /path/to/mcp-adb && source .venv/bin/activate && python -m server"
+      ]
+    }
+  }
+}
+```
+
+Replace `/path/to/mcp-adb` with the absolute path to where you cloned this repository. For example: `/Users/username/Projects/mcp-adb`
+
+### Using with VS Code
+
+You can also use this MCP server with VS Code's agent mode (requires VS Code 1.99 or newer). To set up:
+
+1. Create a `.vscode/mcp.json` file in your workspace:
+
+```json
+{
+  "servers": {
+    "mcp-android": {
+      "type": "stdio",
+      "command": "bash",
+      "args": [
+        "-c",
+        "cd /path/to/mcp-adb && source .venv/bin/activate && python -m server"
+      ]
+    }
+  }
+}
+```
+
+Replace `/path/to/mcp-adb` with the absolute path to where you cloned this repository.
+
+After adding the configuration, you can manage the server using:
+
+- Command Palette → `MCP: List Servers` to view and manage configured servers
+- Command Palette → `MCP: Start Server` to start the server
+- The server's tools will be available in VS Code's agent mode chat
+
+![Vscode](.docs/mcp-vscode.png)
+
 ## UI Inspector
 
 The project includes support for uiauto.dev, a powerful UI inspection tool for viewing and analyzing your device's interface structure.
