@@ -1,6 +1,13 @@
+[![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/)
+
+
 # MCP Android Agent
 
 This project provides an **MCP (Model Context Protocol)** server for automating Android devices using [uiautomator2](https://github.com/openatx/uiautomator2). It's designed to be easily plugged into AI agents like GitHub Copilot Chat, Claude, or Open Interpreter to control Android devices through natural language.
+
+## 📱 Demo
+
+https://github.com/nim444/mcp-android/blob/main/.docs/demo.mp4
 
 ---
 
@@ -25,44 +32,6 @@ Perfect for:
 - Remote device control setups
 - Automated QA tools
 - Android bot frameworks
-
----
-
-## 🛠️ Setup
-
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/nim444/mcp-android.git
-cd mcp-android
-```
-
-
-### 2. Create and activate virtual environment
-
-```bash
-# Using uv (https://github.com/astral-sh/uv)
-uv venv
-source .venv/bin/activate
-```
-
-### 3. Install dependencies (from pyproject.toml)
-
-```bash
-uv pip install
-```
-
-### 4. Run with uvicorn (recommended)
-
-```bash
-uvicorn server:app --factory --host 0.0.0.0 --port 8000
-```
-
-Alternatively, run with MCP stdio (for AI agent integration):
-
-```bash
-python server.py
-```
 
 ---
 
@@ -96,3 +65,40 @@ python server.py
 | `get_toast`           | Get the last toast message shown on screen                               |
 | `clear_app_data`      | Clear user data/cache of a specified app                                 |
 | `wait_activity`       | Wait until a specific activity appears                                   |
+
+---
+
+## 🛠️ Setup
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/nim444/mcp-android.git
+cd mcp-android
+```
+
+### 2. Create and activate virtual environment
+
+```bash
+# Using uv (https://github.com/astral-sh/uv)
+uv venv
+source .venv/bin/activate
+```
+
+### 3. Install dependencies (from pyproject.toml)
+
+```bash
+uv pip install
+```
+
+### 4. Run with uvicorn (recommended)
+
+```bash
+uvicorn server:app --factory --host 0.0.0.0 --port 8000
+```
+
+Alternatively, run with MCP stdio (for AI agent integration):
+
+```bash
+python server.py
+```
