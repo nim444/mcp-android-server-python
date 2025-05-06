@@ -1,4 +1,8 @@
 [![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/)
+[![PyPI](https://img.shields.io/pypi/v/uiautomator2.svg?label=uiautomator2)](https://pypi.python.org/pypi/uiautomator2)
+[![PyPI](https://img.shields.io/pypi/v/adbutils.svg?label=adbutils)](https://github.com/openatx/adbutils)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/openatx/android-uiautomator-server.svg?label=android-uiautomator-server)](https://github.com/openatx/android-uiautomator-server)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # MCP Android Agent
 
@@ -7,9 +11,15 @@ This project provides an **MCP (Model Context Protocol)** server for automating 
 ## Quick Demo
 
 ![Demo](.docs/demo.gif)
----
 
-## 🚀 Features
+## Requirements
+
+- Python 3.13 or higher
+- Android Debug Bridge (adb) installed and in PATH
+- Connected Android device with USB debugging enabled
+- [uiautomator2](https://github.com/openatx/uiautomator2) compatible Android device
+
+## Features
 
 - Start, stop, and manage apps by package name
 - Retrieve installed apps and current foreground app
@@ -20,9 +30,7 @@ This project provides an **MCP (Model Context Protocol)** server for automating 
 - Clear app data and wait for activities
 - Includes a health check and `adb` diagnostic tool
 
----
-
-## ✅ Use Case
+## Use Cases
 
 Perfect for:
 
@@ -30,10 +38,67 @@ Perfect for:
 - Remote device control setups
 - Automated QA tools
 - Android bot frameworks
+- UI testing and automation
+- Device management and monitoring
 
----
+## Installation
 
-## 🤖 Available MCP Tools
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/nim444/mcp-android.git
+cd mcp-android
+```
+
+### 2. Create and activate virtual environment
+
+```bash
+# Using uv (https://github.com/astral-sh/uv)
+uv venv
+source .venv/bin/activate  # On Windows: .venv\\Scripts\\activate
+```
+
+### 3. Install dependencies
+
+```bash
+uv pip install
+```
+
+## Running the Server
+
+### Option 1: Using uvicorn (Recommended)
+
+```bash
+uvicorn server:app --factory --host 0.0.0.0 --port 8000
+```
+
+### Option 2: Using MCP stdio (For AI agent integration)
+
+```bash
+python server.py
+```
+
+## UI Inspector
+
+The project includes support for uiauto.dev, a powerful UI inspection tool for viewing and analyzing your device's interface structure.
+
+1. Install the UI inspector:
+
+```bash
+uv pip install uiautodev
+```
+
+2. Start the inspector:
+
+```bash
+uiauto.dev
+```
+
+3. Open your browser and navigate to <https://uiauto.dev>
+
+![Ui](.docs/ui.png)
+
+## Available MCP Tools
 
 | Tool Name             | Description                                                              |
 |-----------------------|--------------------------------------------------------------------------|
@@ -66,37 +131,6 @@ Perfect for:
 
 ---
 
-## 🛠️ Setup
+## License
 
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/nim444/mcp-android.git
-cd mcp-android
-```
-
-### 2. Create and activate virtual environment
-
-```bash
-# Using uv (https://github.com/astral-sh/uv)
-uv venv
-source .venv/bin/activate
-```
-
-### 3. Install dependencies (from pyproject.toml)
-
-```bash
-uv pip install
-```
-
-### 4. Run with uvicorn (recommended)
-
-```bash
-uvicorn server:app --factory --host 0.0.0.0 --port 8000
-```
-
-Alternatively, run with MCP stdio (for AI agent integration):
-
-```bash
-python server.py
-```
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
