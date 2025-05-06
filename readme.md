@@ -6,8 +6,7 @@ This project provides an **MCP (Model Context Protocol)** server for automating 
 
 ## Quick Demo
 
-<video src=".docs/demo.mp4" width="600" controls></video>
-
+![Demo](.docs/demo.gif)
 ---
 
 ## 🚀 Features
