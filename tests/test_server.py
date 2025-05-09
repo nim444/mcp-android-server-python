@@ -31,6 +31,7 @@ from server import (
     get_toast,
     clear_app_data,
     wait_activity,
+    dump_hierarchy,
 )
 from typing import List, Dict, Any
 
@@ -840,6 +841,50 @@ def test_wait_activity_failure(mock_connect):
     mock_connect.return_value = mock_device
 
     assert wait_activity(".MainActivity", device_id="testdevice") == False
+    mock_connect.assert_called_once_with("testdevice")
+
+
+@patch("server.u2.connect")
+def test_dump_hierarchy_success(mock_connect):
+    mock_device = MagicMock()
+    mock_device.dump_hierarchy.return_value = "<node><child></child></node>"
+    mock_connect.return_value = mock_device
+
+    result = dump_hierarchy(device_id="testdevice")
+
+    assert result == "<node><child></child></node>"
+    mock_connect.assert_called_once_with("testdevice")
+    mock_device.dump_hierarchy.assert_called_once_with(
+        compressed=False, pretty=True, max_depth=50
+    )
+
+
+@patch("server.u2.connect")
+def test_dump_hierarchy_with_options(mock_connect):
+    mock_device = MagicMock()
+    mock_device.dump_hierarchy.return_value = "<node></node>"
+    mock_connect.return_value = mock_device
+
+    result = dump_hierarchy(
+        compressed=True, pretty=False, max_depth=10, device_id="testdevice"
+    )
+
+    assert result == "<node></node>"
+    mock_connect.assert_called_once_with("testdevice")
+    mock_device.dump_hierarchy.assert_called_once_with(
+        compressed=True, pretty=False, max_depth=10
+    )
+
+
+@patch("server.u2.connect")
+def test_dump_hierarchy_failure(mock_connect):
+    mock_device = MagicMock()
+    mock_device.dump_hierarchy.side_effect = Exception("Failed to dump hierarchy")
+    mock_connect.return_value = mock_device
+
+    result = dump_hierarchy(device_id="testdevice")
+
+    assert result == ""
     mock_connect.assert_called_once_with("testdevice")
 
 
