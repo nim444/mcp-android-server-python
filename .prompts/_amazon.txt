@@ -1,0 +1,12 @@
+Use my andrpid phone and mcp tools : 
+
+i need to but white tshirt for men in size of M , follow steps and return some price list
+
+Connected to the Android device
+Launched the Amazon Shopping app ""com.amazon.mShop.android.shopping"
+verify by get current app
+Accessed the search functionality try to approach with coordinates using swiping  "start_x": 500, "start_y": 170,"end_x": 500 "end_y": 170,"duration": 0.1
+asfter swap dont need to click just Entered the search query 
+Executed the search press Enter
+Waited 2 seconf then dump to get result
+Get 2 search results 
