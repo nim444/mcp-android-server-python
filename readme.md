@@ -9,6 +9,10 @@ This project provides an **MCP (Model Context Protocol)** server for automating 
 
 ![Demo](.docs/demo.gif)
 
+----
+
+![Demo](.docs/amazon.gif)
+
 ## Requirements
 
 - Python 3.13 or higher
