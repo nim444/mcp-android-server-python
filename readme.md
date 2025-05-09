@@ -184,6 +184,7 @@ uiauto.dev
 | `get_toast`           | Get the last toast message shown on screen                               |
 | `clear_app_data`      | Clear user data/cache of a specified app                                 |
 | `wait_activity`       | Wait until a specific activity appears                                   |
+| `dump_hierarchy`      | Dump the UI hierarchy of the current screen as XML                       |
 
 ---
 
