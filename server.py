@@ -698,6 +698,37 @@ def wait_activity(
         return False
 
 
+@mcp.tool(
+    name="dump_hierarchy", description="Dump the UI hierarchy of the current screen"
+)
+def dump_hierarchy(
+    compressed: bool = False,
+    pretty: bool = True,
+    max_depth: int = 50,
+    device_id: Optional[str] = None,
+) -> str:
+    """Dump the UI hierarchy of the current screen.
+
+    Args:
+        compressed: Whether to include not important nodes (False to include all nodes)
+        pretty: Whether to format the output XML
+        max_depth: Maximum depth of the XML hierarchy to include
+        device_id: Optional device ID to connect to
+
+    Returns:
+        XML string representation of the UI hierarchy
+    """
+    try:
+        d = u2.connect(device_id)
+        xml = d.dump_hierarchy(
+            compressed=compressed, pretty=pretty, max_depth=max_depth
+        )
+        return xml
+    except Exception as e:
+        print(f"Failed to dump UI hierarchy: {str(e)}")
+        return ""
+
+
 if __name__ == "__main__":
     # using uvicorn to run the server
     mcp.run(transport="stdio")
