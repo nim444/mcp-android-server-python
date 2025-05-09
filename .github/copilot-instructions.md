@@ -1,21 +1,38 @@
-<!-- Use this file to provide workspace-specific custom instructions to Copilot. For more details, visit https://code.visualstudio.com/docs/copilot/copilot-customization#_use-a-githubcopilotinstructionsmd-file -->
+#  MCP Android Agent
 
-# MCP-UIAutomator2 Server Instructions
+This project provides an **MCP (Model Context Protocol)** server for automating Android devices using [uiautomator2](https://github.com/openatx/uiautomator2). It's designed to be easily plugged into AI agents like GitHub Copilot Chat, Claude, or Open Interpreter to control Android devices through natural language.
 
-This workspace contains a Model Context Protocol (MCP) server that integrates with UIAutomator2 for Android automation.
 
-## Key Information
 
-- This is an MCP server project. You can find more info and examples at <https://github.com/modelcontextprotocol/python-sdk>
-- The server uses UIAutomator2 for Android automation: <https://github.com/openatx/uiautomator2>
-- The main server implementation is in `src/server.py`
-- The server exposes MCP functions to interact with Android devices via UIAutomator2
-- Tests are located in the `tests` directory
+## Available MCP Tools
 
-## Development Guidelines
+| Tool Name             | Description                                                              |
+|-----------------------|--------------------------------------------------------------------------|
+| `mcp_health`          | Check if the MCP server is running properly                              |
+| `connect_device`      | Connect to an Android device and get basic info                          |
+| `get_installed_apps`  | List all installed apps with version and package info                    |
+| `get_current_app`     | Get info about the app currently in the foreground                       |
+| `start_app`           | Start an app by its package name                                         |
+| `stop_app`            | Stop an app by its package name                                          |
+| `stop_all_apps`       | Stop all currently running apps                                          |
+| `screen_on`           | Turn on the screen                                                       |
+| `screen_off`          | Turn off the screen                                                      |
+| `get_device_info`     | Get detailed device info: serial, resolution, battery, etc.              |
+| `press_key`           | Simulate hardware key press (e.g. `home`, `back`, `menu`, etc.)          |
+| `unlock_screen`       | Unlock the screen (turn on and swipe if necessary)                       |
+| `check_adb`           | Check if ADB is installed and list connected devices                     |
+| `wait_for_screen_on`  | Wait asynchronously until the screen is turned on                        |
+| `click`               | Tap on an element by `text`, `resourceId`, or `description`              |
+| `long_click`          | Perform a long click on an element                                       |
+| `send_text`           | Input text into currently focused field (optionally clearing before)     |
+| `get_element_info`    | Get info on UI elements (text, bounds, clickable, etc.)                  |
+| `swipe`               | Swipe from one coordinate to another                                     |
+| `wait_for_element`    | Wait for an element to appear on screen                                  |
+| `screenshot`          | Take and save a screenshot from the device                               |
+| `scroll_to`           | Scroll until a given element becomes visible                             |
+| `drag`                | Drag an element to a specific screen location                            |
+| `get_toast`           | Get the last toast message shown on screen                               |
+| `clear_app_data`      | Clear user data/cache of a specified app                                 |
+| `wait_activity`       | Wait until a specific activity appears                                   |
+| `dump_hierarchy`      | Dump the UI hierarchy of the current screen as XML                       |
 
-- Maintain compatibility with the Model Context Protocol specification
-- Keep function signatures consistent with UIAutomator2 API
-- Ensure proper error handling for all device interactions
-- Add docstrings for all MCP functions describing parameters and return values
-- Write unit tests for new functions
