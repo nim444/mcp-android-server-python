@@ -127,21 +127,17 @@ def test_get_installed_apps_success(mock_connect):
 def test_get_current_app_success(mock_connect):
     mock_device = MagicMock()
     mock_current_app = {
-        "package_name": "com.example.current",
-        "version_name": "1.5",
-        "version_code": 15,
-        "first_install_time": "2023-03-01",
-        "last_update_time": "2023-03-05",
+        "package": "com.example.current",
+        "activity": ".MainActivity",
+        "pid": 12345,
     }
     mock_device.app_current.return_value = mock_current_app
     mock_connect.return_value = mock_device
 
-    expected_app: AppInfo = {
-        "package_name": "com.example.current",
-        "version_name": "1.5",
-        "version_code": 15,
-        "first_install_time": "2023-03-01",
-        "last_update_time": "2023-03-05",
+    expected_app = {
+        "package": "com.example.current",
+        "activity": ".MainActivity",
+        "pid": 12345,
     }
     assert get_current_app("testdevice") == expected_app
     mock_connect.assert_called_once_with("testdevice")
