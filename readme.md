@@ -9,11 +9,10 @@ This project provides an **MCP (Model Context Protocol)** server for automating 
 
 ![Demo](.docs/demo.gif)
 
-----
 
 ![Demo](.docs/amazon.gif)
+ 
 
-## Requirements
 
 - Python 3.13 or higher
 - Android Debug Bridge (adb) installed and in PATH
@@ -47,8 +46,8 @@ Perfect for:
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/nim444/mcp-android.git
-cd mcp-android
+git clone https://github.com/nim444/mcp-android-server-python.git
+cd mcp-android-server-python
 ```
 
 ### 2. Create and activate virtual environment
@@ -62,33 +61,69 @@ source .venv/bin/activate  # On Windows: .venv\\Scripts\\activate
 ### 3. Install dependencies
 
 ```bash
-uv pip install
+uv pip install .
 ```
 
 ## Running the Server
 
-### Option 1: Using uvicorn (Recommended)
+This server supports two transport modes: **stdio** (for local AI agent integration) and **TCP** (for remote or network access).
+
+### Option 1: stdio (Default - for AI agents)
+
+This is the default mode for local integration with Claude Desktop, VS Code, etc.
 
 ```bash
-uvicorn server:app --factory --host 0.0.0.0 --port 8000
-```
-
-### Option 2: Using MCP stdio (For AI agent integration)
-
-```bash
+# Default stdio mode
 python server.py
+
+# Or using module form
+python -m server
 ```
+
+### Option 2: TCP/SSE (for network access)
+
+Run the server over TCP using Server-Sent Events (SSE) for remote access:
+
+```bash
+# Start server on default host (127.0.0.1:8000)
+python server.py --tcp
+
+# Customize host and port via environment variables
+MCP_HOST=0.0.0.0 MCP_PORT=8080 python server.py --tcp
+
+# Or set MCP_TRANSPORT environment variable
+MCP_TRANSPORT=tcp python server.py
+```
+
+The server will display the SSE endpoint URL when started in TCP mode:
+
+```text
+Starting MCP server over TCP at 127.0.0.1:8000
+SSE endpoint: http://127.0.0.1:8000/sse
+```
+
+**TCP Mode Configuration:**
+
+- **Host**: Set via `MCP_HOST` environment variable (default: `127.0.0.1`)
+- **Port**: Set via `MCP_PORT` environment variable (default: `8000`)
+- **SSE Path**: Fixed at `/sse` (MCP standard)
+
+**Note**: TCP mode uses SSE (Server-Sent Events) transport, which is supported by MCP clients that can connect to remote servers.
 
 ## Usage
 
-An MCP client is needed to use this server. The Claude Desktop app is an example of an MCP client. To use this server with Claude Desktop:
+An MCP client is needed to use this server. The Claude Desktop app is an example of an MCP client.
 
-### Locate your Claude Desktop configuration file
+### Using stdio mode (Local AI agents)
+
+#### With Claude Desktop
+
+Locate your Claude Desktop configuration file:
 
 - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
 
-### Add the Android MCP server configuration to the mcpServers section
+Add the Android MCP server configuration to the mcpServers section:
 
 ```json
 {
@@ -98,16 +133,16 @@ An MCP client is needed to use this server. The Claude Desktop app is an example
       "command": "bash",
       "args": [
         "-c",
-        "cd /path/to/mcp-adb && source .venv/bin/activate && python -m server"
+        "cd /path/to/mcp-android-server-python && source .venv/bin/activate && python -m server"
       ]
     }
   }
 }
 ```
 
-Replace `/path/to/mcp-adb` with the absolute path to where you cloned this repository. For example: `/Users/username/Projects/mcp-adb`
+Replace `/path/to/mcp-android-server-python` with the absolute path to where you cloned this repository. For example: `/home/username/Projects/mcp-android-server-python`
 
-### Using with VS Code
+#### With VS Code
 
 You can also use this MCP server with VS Code's agent mode (requires VS Code 1.99 or newer). To set up:
 
@@ -121,14 +156,14 @@ You can also use this MCP server with VS Code's agent mode (requires VS Code 1.9
       "command": "bash",
       "args": [
         "-c",
-        "cd /path/to/mcp-adb && source .venv/bin/activate && python -m server"
+        "cd /path/to/mcp-android-server-python && source .venv/bin/activate && python -m server"
       ]
     }
   }
 }
 ```
 
-Replace `/path/to/mcp-adb` with the absolute path to where you cloned this repository.
+Replace `/path/to/mcp-android-server-python` with the absolute path to where you cloned this repository.
 
 After adding the configuration, you can manage the server using:
 
@@ -137,6 +172,26 @@ After adding the configuration, you can manage the server using:
 - The server's tools will be available in VS Code's agent mode chat
 
 ![Vscode](.docs/mcp-vscode.png)
+
+### Using TCP mode (Remote/Network access)
+
+For clients that support SSE transport (like custom MCP clients or remote setups), you can connect to the TCP endpoint.
+
+1. Start the server in TCP mode:
+
+```bash
+# Start on localhost
+python server.py --tcp
+
+# Or bind to all interfaces for remote access
+MCP_HOST=0.0.0.0 MCP_PORT=8080 python server.py --tcp
+```
+
+1. Configure your MCP client to connect to the SSE endpoint:
+   - **Endpoint URL**: `http://host:port/sse` (e.g., `http://127.0.0.1:8000/sse`)
+   - **Transport**: SSE (Server-Sent Events)
+
+**Security Note**: When binding to `0.0.0.0`, the server will be accessible from the network. Consider using firewall rules or running behind a reverse proxy for production use.
 
 ## UI Inspector
 
@@ -148,13 +203,13 @@ The project includes support for uiauto.dev, a powerful UI inspection tool for v
 uv pip install uiautodev
 ```
 
-2. Start the inspector:
+1. Start the inspector:
 
 ```bash
 uiauto.dev
 ```
 
-3. Open your browser and navigate to <https://uiauto.dev>
+1. Open your browser and navigate to <https://uiauto.dev>
 
 ![Ui](.docs/ui.png)
 
@@ -190,8 +245,7 @@ uiauto.dev
 | `wait_activity`       | Wait until a specific activity appears                                   |
 | `dump_hierarchy`      | Dump the UI hierarchy of the current screen as XML                       |
 
----
-
 ## License
+
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

@@ -8,7 +8,20 @@ import asyncio
 from typing import TypedDict
 
 # Create an MCP server
-mcp = FastMCP("MCP Server Android")
+import os
+import sys
+
+# Check if running in TCP mode (via --tcp flag or MCP_TRANSPORT env var)
+use_tcp = "--tcp" in sys.argv or os.getenv("MCP_TRANSPORT") == "tcp"
+tcp_host = os.getenv("MCP_HOST", "127.0.0.1")
+tcp_port = int(os.getenv("MCP_PORT", "8000"))
+
+if use_tcp:
+    # TCP mode: configure host and port
+    mcp = FastMCP("MCP Server Android", host=tcp_host, port=tcp_port)
+else:
+    # Default stdio mode
+    mcp = FastMCP("MCP Server Android")
 
 
 # Type definitions for better type hints
@@ -28,6 +41,12 @@ class AppInfo(TypedDict):
     version_code: int
     first_install_time: str
     last_update_time: str
+
+
+class CurrentAppInfo(TypedDict):
+    package: str
+    activity: str
+    pid: int
 
 
 class ElementInfo(TypedDict):
@@ -79,31 +98,44 @@ def connect_device(device_id: Optional[str] = None) -> DeviceInfo:
 
 
 @mcp.tool(name="get_installed_apps", description="List installed apps")
-def get_installed_apps(device_id: Optional[str] = None) -> List[AppInfo]:
+def get_installed_apps(device_id: Optional[str] = None) -> List[str]:
     """Get a list of all installed applications on the device.
 
     Args:
         device_id: Optional device ID to connect to
 
     Returns:
-        List of application information including package names and versions
+        List of package names of installed applications
     """
     d = u2.connect(device_id)
-    return d.app_list()
+    apps = d.app_list()
+    # app_list() returns a list of package names (strings)
+    if isinstance(apps, list) and len(apps) > 0:
+        return apps
+    return []
 
 
 @mcp.tool(name="get_current_app", description="Get info about the foreground app")
-def get_current_app(device_id: Optional[str] = None) -> AppInfo:
+def get_current_app(device_id: Optional[str] = None) -> CurrentAppInfo:
     """Get information about the currently active application.
 
     Args:
         device_id: Optional device ID to connect to
 
     Returns:
-        Information about the current foreground application
+        Dictionary with 'package', 'activity', and 'pid' of foreground app
     """
     d = u2.connect(device_id)
-    return d.app_current()
+    current = d.app_current()
+    # app_current() returns a dict with 'package', 'activity', 'pid' keys
+    if isinstance(current, dict) and "package" in current:
+        return CurrentAppInfo(
+            package=current.get("package", ""),
+            activity=current.get("activity", ""),
+            pid=current.get("pid", 0),
+        )
+    # Return default values if connection fails
+    return CurrentAppInfo(package="", activity="", pid=0)
 
 
 @mcp.tool(name="start_app", description="Start an app by package name")
@@ -730,5 +762,10 @@ def dump_hierarchy(
 
 
 if __name__ == "__main__":
-    # using uvicorn to run the server
-    mcp.run(transport="stdio")
+    # Run with SSE transport for TCP, otherwise stdio
+    if use_tcp:
+        print(f"Starting MCP server over TCP at {tcp_host}:{tcp_port}")
+        print(f"SSE endpoint: http://{tcp_host}:{tcp_port}/sse")
+        mcp.run(transport="sse")
+    else:
+        mcp.run(transport="stdio")

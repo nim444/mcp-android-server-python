@@ -10,7 +10,6 @@ wheels/
 .venv/
 .env
 .python-version
-.vscode/
 .idea/
 *.swp
 .DS_Store
