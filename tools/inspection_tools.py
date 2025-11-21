@@ -20,7 +20,7 @@ def register_inspection_tools(mcp):
 
     @mcp.tool(
         name="get_element_info",
-        description="Get detailed information about a UI element including its properties, bounds, text, resource ID, class name, and interaction capabilities."
+        description="Get detailed information about a UI element including its properties, bounds, text, resource ID, class name, and interaction capabilities.",
     )
     def get_element_info(
         selector: str,
@@ -84,7 +84,7 @@ def register_inspection_tools(mcp):
 
     @mcp.tool(
         name="wait_for_element",
-        description="Wait for a UI element to appear on the screen. Essential for handling loading screens, animations, and dynamic content."
+        description="Wait for a UI element to appear on the screen. Essential for handling loading screens, animations, and dynamic content.",
     )
     def wait_for_element(
         selector: str,
@@ -132,7 +132,7 @@ def register_inspection_tools(mcp):
 
     @mcp.tool(
         name="scroll_to",
-        description="Scroll to a specific element on the screen. Automatically finds scrollable containers and scrolls until the target element is visible."
+        description="Scroll to a specific element on the screen. Automatically finds scrollable containers and scrolls until the target element is visible.",
     )
     def scroll_to(
         selector: str, selector_type: str = "text", device_id: Optional[str] = None
@@ -177,7 +177,7 @@ def register_inspection_tools(mcp):
 
     @mcp.tool(
         name="screenshot",
-        description="Capture a screenshot of the device screen and save it to the specified file path. Essential for debugging and visual verification."
+        description="Capture a screenshot of the device screen and save it to the specified file path. Essential for debugging and visual verification.",
     )
     def screenshot(filename: str, device_id: Optional[str] = None) -> bool:
         """Take a screenshot of the device screen and save it to a file.
@@ -211,7 +211,7 @@ def register_inspection_tools(mcp):
 
     @mcp.tool(
         name="dump_hierarchy",
-        description="Dump the complete UI hierarchy of the current screen as XML. Essential for understanding screen structure, finding elements, and debugging automation issues."
+        description="Dump the complete UI hierarchy of the current screen as XML. Essential for understanding screen structure, finding elements, and debugging automation issues.",
     )
     def dump_hierarchy(
         compressed: bool = False,

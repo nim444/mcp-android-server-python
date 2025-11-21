@@ -8,7 +8,7 @@ def register_screen_tools(mcp):
 
     @mcp.tool(
         name="screen_on",
-        description="Turn the device screen on. Useful when the device has gone to sleep during automated testing."
+        description="Turn the device screen on. Useful when the device has gone to sleep during automated testing.",
     )
     def screen_on(device_id: Optional[str] = None) -> bool:
         """Turn on the device screen if it is currently off.
@@ -32,7 +32,7 @@ def register_screen_tools(mcp):
 
     @mcp.tool(
         name="screen_off",
-        description="Turn the device screen off. Useful for testing how apps behave when device goes to sleep."
+        description="Turn the device screen off. Useful for testing how apps behave when device goes to sleep.",
     )
     def screen_off(device_id: Optional[str] = None) -> bool:
         """Turn off the device screen.
@@ -55,7 +55,7 @@ def register_screen_tools(mcp):
 
     @mcp.tool(
         name="unlock_screen",
-        description="Unlock the device screen. This will wake the device if it's asleep and attempt to unlock it using the default method (swipe up or press home button)."
+        description="Unlock the device screen. This will wake the device if it's asleep and attempt to unlock it using the default method (swipe up or press home button).",
     )
     def unlock_screen(device_id: Optional[str] = None) -> bool:
         """Unlock the device screen if it is locked.
@@ -85,7 +85,7 @@ def register_screen_tools(mcp):
 
     @mcp.tool(
         name="wait_for_screen_on",
-        description="Wait until the device screen is turned on. Useful for asynchronous operations where screen activation is expected."
+        description="Wait until the device screen is turned on. Useful for asynchronous operations where screen activation is expected.",
     )
     async def wait_for_screen_on(device_id: str) -> str:
         """Asynchronously wait for the device screen to turn on.

@@ -18,4 +18,6 @@ filterwarnings = [
 [dependency-groups]
 dev = [
     "ruff>=0.14.4",
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
 ]

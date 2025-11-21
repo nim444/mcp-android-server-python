@@ -7,7 +7,10 @@ import subprocess
 def register_device_tools(mcp):
     """Register all device management related tools with the MCP server."""
 
-    @mcp.tool(name="mcp_health", description="Simple health check tool to verify MCP server is running")
+    @mcp.tool(
+        name="mcp_health",
+        description="Simple health check tool to verify MCP server is running",
+    )
     def mcp_health() -> str:
         """Check if the MCP server is running and responsive.
 
@@ -18,7 +21,7 @@ def register_device_tools(mcp):
 
     @mcp.tool(
         name="get_device_status",
-        description="Get complete device status including connection, ADB availability, and basic device info. This is the recommended first step to ensure everything is working before performing other operations."
+        description="Get complete device status including connection, ADB availability, and basic device info. This is the recommended first step to ensure everything is working before performing other operations.",
     )
     def get_device_status() -> Dict[str, Any]:
         """Get comprehensive device status and connectivity information.
@@ -53,12 +56,14 @@ def register_device_tools(mcp):
                     "device_info": {},
                     "screen_on": False,
                     "error": "ADB not available in PATH. Please install Android SDK platform-tools.",
-                    "ready_for_automation": False
+                    "ready_for_automation": False,
                 }
 
             # Check for connected devices
             try:
-                result = subprocess.run([adb_path, "devices"], capture_output=True, text=True, check=True)
+                result = subprocess.run(
+                    [adb_path, "devices"], capture_output=True, text=True, check=True
+                )
                 lines = result.stdout.strip().splitlines()
                 devices = []
                 for line in lines[1:]:
@@ -74,7 +79,7 @@ def register_device_tools(mcp):
                     "device_info": {},
                     "screen_on": False,
                     "error": f"Failed to check connected devices: {str(e)}",
-                    "ready_for_automation": False
+                    "ready_for_automation": False,
                 }
 
             status = {
@@ -84,11 +89,13 @@ def register_device_tools(mcp):
                 "device_info": {},
                 "screen_on": False,
                 "error": None,
-                "ready_for_automation": False
+                "ready_for_automation": False,
             }
 
             if not devices:
-                status["error"] = "No devices connected. Please connect device and enable USB debugging."
+                status["error"] = (
+                    "No devices connected. Please connect device and enable USB debugging."
+                )
                 return status
 
             # Try to connect and get basic info
@@ -122,12 +129,12 @@ def register_device_tools(mcp):
                 "device_info": {},
                 "screen_on": False,
                 "error": f"Status check failed: {str(e)}",
-                "ready_for_automation": False
+                "ready_for_automation": False,
             }
 
     @mcp.tool(
         name="connect_device",
-        description="Connect to an Android device using uiautomator2 and return comprehensive device information. If device_id is not provided, automatically connects to the first available device."
+        description="Connect to an Android device using uiautomator2 and return comprehensive device information. If device_id is not provided, automatically connects to the first available device.",
     )
     def connect_device(device_id: Optional[str] = None) -> Dict[str, Any]:
         """Connect to an Android device and retrieve detailed device information.
@@ -168,12 +175,14 @@ def register_device_tools(mcp):
                     "success": False,
                     "device_info": {},
                     "error": "ADB is not available in PATH",
-                    "device_id": device_id
+                    "device_id": device_id,
                 }
 
             # Check for connected devices directly
             try:
-                result = subprocess.run([adb_path, "devices"], capture_output=True, text=True, check=True)
+                result = subprocess.run(
+                    [adb_path, "devices"], capture_output=True, text=True, check=True
+                )
                 lines = result.stdout.strip().splitlines()
                 devices = []
                 for line in lines[1:]:
@@ -187,14 +196,14 @@ def register_device_tools(mcp):
                         "success": False,
                         "device_info": {},
                         "error": "No Android devices connected. Please connect a device and ensure USB debugging is enabled.",
-                        "device_id": device_id
+                        "device_id": device_id,
                     }
-            except:
+            except Exception:
                 return {
                     "success": False,
                     "device_info": {},
                     "error": "Failed to check connected devices via ADB",
-                    "device_id": device_id
+                    "device_id": device_id,
                 }
 
             # Connect to device
@@ -214,19 +223,19 @@ def register_device_tools(mcp):
                 "success": True,
                 "device_info": device_info,
                 "error": None,
-                "device_id": d.serial or device_id
+                "device_id": d.serial or device_id,
             }
         except Exception as e:
             return {
                 "success": False,
                 "device_info": {},
                 "error": f"Failed to connect to device: {str(e)}",
-                "device_id": device_id
+                "device_id": device_id,
             }
 
     @mcp.tool(
         name="get_device_info",
-        description="Get comprehensive device information including serial number, screen resolution, Android version, SDK level, battery status, WiFi IP address, manufacturer, model, and current screen state"
+        description="Get comprehensive device information including serial number, screen resolution, Android version, SDK level, battery status, WiFi IP address, manufacturer, model, and current screen state",
     )
     def get_device_info(device_id: Optional[str] = None) -> Dict[str, Any]:
         """Retrieve detailed information about the connected Android device.
@@ -281,19 +290,19 @@ def register_device_tools(mcp):
                 "success": True,
                 "device_info": device_info,
                 "error": None,
-                "device_id": d.serial or device_id
+                "device_id": d.serial or device_id,
             }
         except Exception as e:
             return {
                 "success": False,
                 "device_info": {},
                 "error": f"Failed to get device info: {str(e)}",
-                "device_id": device_id
+                "device_id": device_id,
             }
 
     @mcp.tool(
         name="check_adb_and_list_devices",
-        description="Check if ADB (Android Debug Bridge) is available in the system PATH and list all connected Android devices with their status"
+        description="Check if ADB (Android Debug Bridge) is available in the system PATH and list all connected Android devices with their status",
     )
     def check_adb_and_list_devices() -> Dict[str, Any]:
         """Verify ADB availability and enumerate connected Android devices.

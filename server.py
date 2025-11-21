@@ -54,7 +54,14 @@ When tools return structured responses, present the information in an organized,
 register_all_tools(mcp)
 
 if __name__ == "__main__":
+    # STDIO server launch
+    # mcp.run(
+    #     transport="stdio",
+    #     show_banner=False,
+    # )
+    # STREAMABLE HTTP server launch (uncomment to use)
     mcp.run(
-        transport="stdio",
-        show_banner=False,
+        transport="streamable-http",
+        host="0.0.0.0",
+        port=8080,
     )

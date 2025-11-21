@@ -21,6 +21,7 @@ from . import input_tools
 from . import inspection_tools
 from . import advanced_tools
 
+
 # Convenience function to register all tools at once
 def register_all_tools(mcp):
     """Register all tool modules with the MCP server.
@@ -35,5 +36,6 @@ def register_all_tools(mcp):
     inspection_tools.register_inspection_tools(mcp)
     advanced_tools.register_advanced_tools(mcp)
 
+
 # Export the registration function
-__all__ = ['register_all_tools']
+__all__ = ["register_all_tools"]

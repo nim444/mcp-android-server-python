@@ -7,7 +7,7 @@ def register_advanced_tools(mcp):
 
     @mcp.tool(
         name="get_toast",
-        description="Retrieve the text of the last toast message displayed on the device. Useful for verifying notifications, error messages, and user feedback."
+        description="Retrieve the text of the last toast message displayed on the device. Useful for verifying notifications, error messages, and user feedback.",
     )
     def get_toast(device_id: Optional[str] = None) -> str:
         """Get the text content of the most recent toast message.
@@ -40,7 +40,7 @@ def register_advanced_tools(mcp):
 
     @mcp.tool(
         name="wait_activity",
-        description="Wait for a specific Android activity to appear on the screen. Useful for navigation verification and app state validation."
+        description="Wait for a specific Android activity to appear on the screen. Useful for navigation verification and app state validation.",
     )
     def wait_activity(
         activity: str, timeout: float = 10.0, device_id: Optional[str] = None

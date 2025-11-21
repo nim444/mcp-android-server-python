@@ -8,7 +8,7 @@ def register_app_tools(mcp):
 
     @mcp.tool(
         name="get_installed_apps",
-        description="Get a complete list of all installed applications on your Android device. Automatically connects to the first available device if no device_id is specified. Returns package names for all system and user-installed apps."
+        description="Get a complete list of all installed applications on your Android device. Automatically connects to the first available device if no device_id is specified. Returns package names for all system and user-installed apps.",
     )
     def get_installed_apps(device_id: Optional[str] = None) -> Dict[str, Any]:
         """Retrieve a comprehensive list of all installed applications on the device.
@@ -52,7 +52,7 @@ def register_app_tools(mcp):
                     "apps": [],
                     "count": 0,
                     "error": "ADB is not available in PATH",
-                    "device_id": device_id
+                    "device_id": device_id,
                 }
 
             # Connect directly to device
@@ -66,7 +66,7 @@ def register_app_tools(mcp):
                 "apps": apps,
                 "count": len(apps),
                 "error": None,
-                "device_id": d.serial or device_id
+                "device_id": d.serial or device_id,
             }
         except Exception as e:
             return {
@@ -74,12 +74,12 @@ def register_app_tools(mcp):
                 "apps": [],
                 "count": 0,
                 "error": f"Failed to get installed apps: {str(e)}",
-                "device_id": device_id
+                "device_id": device_id,
             }
 
     @mcp.tool(
         name="get_current_app",
-        description="Get detailed information about the currently active/foreground application including package name, activity, and version information"
+        description="Get detailed information about the currently active/foreground application including package name, activity, and version information",
     )
     def get_current_app(device_id: Optional[str] = None) -> Dict[str, Any]:
         """Retrieve information about the application currently in the foreground.
@@ -102,7 +102,7 @@ def register_app_tools(mcp):
 
     @mcp.tool(
         name="start_app",
-        description="Launch an Android application by its package name with optional wait for the app to appear in foreground"
+        description="Launch an Android application by its package name with optional wait for the app to appear in foreground",
     )
     def start_app(
         package_name: str, device_id: Optional[str] = None, wait: bool = True
@@ -138,7 +138,7 @@ def register_app_tools(mcp):
 
     @mcp.tool(
         name="stop_app",
-        description="Force stop an Android application by its package name. Useful for closing apps that are misbehaving or for testing app restart scenarios."
+        description="Force stop an Android application by its package name. Useful for closing apps that are misbehaving or for testing app restart scenarios.",
     )
     def stop_app(package_name: str, device_id: Optional[str] = None) -> bool:
         """Stop a running Android application by its package name.
@@ -167,7 +167,7 @@ def register_app_tools(mcp):
 
     @mcp.tool(
         name="stop_all_apps",
-        description="Force stop all running applications on the device to free up memory and start with a clean slate for testing"
+        description="Force stop all running applications on the device to free up memory and start with a clean slate for testing",
     )
     def stop_all_apps(device_id: Optional[str] = None) -> bool:
         """Stop all running applications on the Android device.
@@ -195,7 +195,7 @@ def register_app_tools(mcp):
 
     @mcp.tool(
         name="clear_app_data",
-        description="Clear all data and cache for a specific app. This is equivalent to 'Clear Data' in Android app settings and will reset the app to its initial state."
+        description="Clear all data and cache for a specific app. This is equivalent to 'Clear Data' in Android app settings and will reset the app to its initial state.",
     )
     def clear_app_data(package_name: str, device_id: Optional[str] = None) -> bool:
         """Clear all user data and cache for the specified application.

@@ -7,7 +7,7 @@ def register_input_tools(mcp):
 
     @mcp.tool(
         name="press_key",
-        description="Press a hardware or software key on the device. Common keys include: home, back, menu, volume_up, volume_down, power, enter, delete"
+        description="Press a hardware or software key on the device. Common keys include: home, back, menu, volume_up, volume_down, power, enter, delete",
     )
     def press_key(key: str, device_id: Optional[str] = None) -> bool:
         """Simulate pressing a key on the Android device.
@@ -43,7 +43,7 @@ def register_input_tools(mcp):
 
     @mcp.tool(
         name="click",
-        description="Click on a UI element identified by text, resource ID, or content description. Supports multiple selector types for flexible element targeting."
+        description="Click on a UI element identified by text, resource ID, or content description. Supports multiple selector types for flexible element targeting.",
     )
     def click(
         selector: str,
@@ -97,7 +97,7 @@ def register_input_tools(mcp):
 
     @mcp.tool(
         name="long_click",
-        description="Perform a long click (press and hold) on a UI element. Useful for context menus, drag operations, or long press actions."
+        description="Perform a long click (press and hold) on a UI element. Useful for context menus, drag operations, or long press actions.",
     )
     def long_click(
         selector: str,
@@ -144,7 +144,7 @@ def register_input_tools(mcp):
 
     @mcp.tool(
         name="swipe",
-        description="Perform a swipe gesture from one coordinate to another. Useful for scrolling, paging, or custom swipe actions."
+        description="Perform a swipe gesture from one coordinate to another. Useful for scrolling, paging, or custom swipe actions.",
     )
     def swipe(
         start_x: float,
@@ -189,7 +189,7 @@ def register_input_tools(mcp):
 
     @mcp.tool(
         name="drag",
-        description="Drag a specific UI element to a target location on the screen. Useful for drag-and-drop operations, reordering items, or custom interactions."
+        description="Drag a specific UI element to a target location on the screen. Useful for drag-and-drop operations, reordering items, or custom interactions.",
     )
     def drag(
         selector: str,
@@ -238,9 +238,11 @@ def register_input_tools(mcp):
 
     @mcp.tool(
         name="send_text",
-        description="Send text input to the currently focused UI element. Can optionally clear existing text before sending. Perfect for form filling, search boxes, and text fields."
+        description="Send text input to the currently focused UI element. Can optionally clear existing text before sending. Perfect for form filling, search boxes, and text fields.",
     )
-    def send_text(text: str, clear: bool = True, device_id: Optional[str] = None) -> bool:
+    def send_text(
+        text: str, clear: bool = True, device_id: Optional[str] = None
+    ) -> bool:
         """Send text to the currently focused input element on the device.
 
         This function types text into whatever UI element currently has focus,
