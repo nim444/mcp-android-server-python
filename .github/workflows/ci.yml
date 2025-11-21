@@ -28,6 +28,9 @@ jobs:
     - name: Add uv to PATH
       run: echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
+    - name: Create virtual environment
+      run: uv venv
+
     - name: Install dependencies (including dev)
       run: uv pip install --group dev .
 
@@ -54,6 +57,8 @@ jobs:
     - name: Add uv to PATH
       run: echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
+    - name: Create virtual environment
+      run: uv venv
 
     - name: Install dependencies (including test)
       run: uv pip install --group dev .
