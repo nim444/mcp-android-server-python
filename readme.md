@@ -120,21 +120,63 @@ uv pip install
 
 ## Running the Server
 
-### Option 1: Using uvicorn (Recommended)
+The server supports two different transport modes depending on your use case:
+
+### Option 1: MCP stdio (For AI Agent Integration)
+
+This is the standard mode for integrating with AI agents like Claude Desktop, VS Code, or other MCP clients.
 
 ```bash
-uvicorn server:app --factory --host 0.0.0.0 --port 8000
+# Edit server.py to use stdio mode (default commented out)
+# Uncomment the stdio section and comment out http section
+
+# Then run:
+uv run python server.py
 ```
 
-### Option 2: Using MCP stdio (For AI agent integration)
+### Option 2: Streamable HTTP (For Web/API Integration)
+
+This mode runs the server as an HTTP API, useful for web applications, curl testing, or direct HTTP calls.
 
 ```bash
-python server.py
+# Current default configuration - runs as HTTP server
+uv run python server.py
+
+# Server will be available at: http://localhost:8080
+```
+
+### Switching Between Modes
+
+Edit `server.py` and modify the `if __name__ == "__main__":` section:
+
+**For stdio mode (AI agents):**
+```python
+if __name__ == "__main__":
+    mcp.run(
+        transport="stdio",
+        show_banner=False,
+    )
+```
+
+**For HTTP mode (Web API):**
+```python
+if __name__ == "__main__":
+    mcp.run(
+        transport="streamable-http",
+        host="0.0.0.0",
+        port=8080,
+    )
 ```
 
 ## Usage
 
-An MCP client is needed to use this server. The Claude Desktop app is an example of an MCP client. To use this server with Claude Desktop:
+### For AI Agent Integration (Claude Desktop, VS Code, etc.)
+
+An MCP client is needed to use this server. The Claude Desktop app is an example of an MCP client.
+
+**Important:** For AI agent integration, make sure to configure the server in **stdio mode** (see "Option 1" above).
+
+To use this server with Claude Desktop:
 
 ### Locate your Claude Desktop configuration file
 
@@ -151,7 +193,7 @@ An MCP client is needed to use this server. The Claude Desktop app is an example
       "command": "bash",
       "args": [
         "-c",
-        "cd /path/to/mcp-adb && source .venv/bin/activate && python -m server"
+        "cd /path/to/mcp-adb && source .venv/bin/activate && uv run python server.py"
       ]
     }
   }
@@ -174,7 +216,7 @@ You can also use this MCP server with VS Code's agent mode (requires VS Code 1.9
       "command": "bash",
       "args": [
         "-c",
-        "cd /path/to/mcp-adb && source .venv/bin/activate && python -m server"
+        "cd /path/to/mcp-adb && source .venv/bin/activate && uv run python server.py"
       ]
     }
   }
@@ -190,6 +232,24 @@ After adding the configuration, you can manage the server using:
 - The server's tools will be available in VS Code's agent mode chat
 
 ![Vscode](.docs/mcp-vscode.png)
+
+### For HTTP API Integration (Direct API Calls)
+
+When running in HTTP mode (Option 2), you can interact with the server directly via HTTP requests:
+
+```bash
+# Check if server is running
+curl http://localhost:8080/
+
+# List available tools (you'll need to implement proper tool discovery endpoints)
+# This depends on your FastMCP version and configuration
+```
+
+**Use Cases for HTTP Mode:**
+- Web applications with Android automation
+- Testing tools that can't use stdio
+- Direct API integration with other services
+- Debugging and development with curl/Postman
 
 ## UI Inspector
 
