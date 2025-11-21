@@ -29,7 +29,7 @@ jobs:
       run: echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
     - name: Install dependencies (including dev)
-      run: uv pip install --system --dev .
+      run: uv pip install --group dev .
 
     - name: Lint with Ruff
       run: uv run ruff check server.py tools/
@@ -56,7 +56,7 @@ jobs:
 
 
     - name: Install dependencies (including test)
-      run: uv pip install --system --dev .
+      run: uv pip install --group dev .
 
     - name: Run tests with pytest
       run: uv run pytest -v 
